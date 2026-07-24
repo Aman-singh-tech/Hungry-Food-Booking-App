@@ -67,14 +67,20 @@ useEffect(()=>{
     async function loadData(){
         await fetchFoodList();
         const storedToken = localStorage.getItem("token");
-        console.log("StoreContext: token from localStorage:", storedToken ? `${storedToken.substring(0, 10)}...` : "undefined");
         if(storedToken){
             setToken(storedToken);
-            await loadCartData(storedToken);
         }
     }
     loadData();
 },[])
+
+useEffect(() => {
+    if (token) {
+        loadCartData(token);
+    } else {
+        setCartItems({});
+    }
+}, [token]);
 
     const contextValue = {
         food_list,

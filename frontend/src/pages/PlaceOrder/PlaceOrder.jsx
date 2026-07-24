@@ -6,7 +6,7 @@ import { StoreContext } from '../../context/StoreContext';
 
 const PlaceOrder = () => {
 
-  const {getTotalCartAmount,token,food_list,cartItems,url} = useContext(StoreContext)
+  const {getTotalCartAmount,token,food_list,cartItems,url,setCartItems} = useContext(StoreContext)
   const [data,setData] = useState({
     firstName:"",
     lastName:"",
@@ -41,6 +41,7 @@ event.preventDefault();
   }
   let response = await axios.post(url+"/api/order/place",orderData,{headers:{Authorization: `Bearer ${token}`}})
   if(response.data.success){
+    setCartItems({});
     const {session_url} = response.data;
     window.location.replace(session_url);
   }
